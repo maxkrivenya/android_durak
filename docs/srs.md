@@ -83,13 +83,19 @@
 ## Скриншоты
 
 Игры:
+
 ![App Screenshot](mockups/games.png)
 
+
 Настройки аккаунта:
+
 ![App Screenshot](mockups/account_settings.png)
 
+
 Настройки приложения:
+
 ![App Screenshot](mockups/app_settings.png)
+
 
 ### 3.2 Нефункциональные требования
 
