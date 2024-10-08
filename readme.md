@@ -1,12 +1,12 @@
 
-# Krivenya's card games
+# Карточная игротека
 
-A brand new application with cutting-edge card games using state-of-the-art technologies made by the one and only Krivenya Maksim of BSUIR for the students all over the world.
+Мобильное приложение с карточными играми, способное развеять скуку как студентов на парах, так и преподавателей вне пар.
 
 
 
 
 ## Documentation
 
-[Documentation](docs/srs.md)
+[Документация](docs/srs.md)
 
