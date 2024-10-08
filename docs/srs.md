@@ -7,4 +7,4 @@ Account settings:
 ![App Screenshot](mockups/account_settings.png)
 
 Game settings:
-![App Screenshot](mockups/game_settings.png)
+![App Screenshot](mockups/app_settings.png)
