@@ -8,5 +8,5 @@ A brand new application with cutting-edge card games using state-of-the-art tech
 
 ## Documentation
 
-[Documentation](https://linktodocumentation)
+[Documentation](https://github.com/maxkrivenya/android_durak/docs/srs.md)
 
