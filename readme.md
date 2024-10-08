@@ -6,7 +6,7 @@
 
 
 
-## Documentation
+## Документация
 
 [Документация](docs/srs.md)
 
