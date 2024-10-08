@@ -1,10 +1,10 @@
 ## Screenshots
 
 Main app page:
-![App Screenshot](docs/mockups/games)
+![App Screenshot](mockups/games)
 
 Account settings:
-![App Screenshot](docs/mockups/account_settings)
+![App Screenshot](mockups/account_settings)
 
 Game settings:
-![App Screenshot](docs/mockups/game_settings)
+![App Screenshot](mockups/game_settings)
