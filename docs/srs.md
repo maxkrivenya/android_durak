@@ -87,6 +87,11 @@
 ![App Screenshot](mockups/games.png)
 
 
+Статистика по играм:
+
+![App Screenshot](mockups/statistics.png)
+
+
 Настройки аккаунта:
 
 ![App Screenshot](mockups/account_settings.png)
