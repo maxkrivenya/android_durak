@@ -16,7 +16,7 @@
           }
         }
 
-        external fun jniLogin(j_name : String, j_password: String, j_email: String): String
+        external fun jniLogin(j_name : String, j_password: String): String
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -32,9 +32,7 @@
                 val response =
                     jniLogin(
                         username.text.toString(),
-                        password.text.toString(),
-                        ""
-                    );
+                        password.text.toString());
                 Toast.makeText(
                     this@Login,
                     response,

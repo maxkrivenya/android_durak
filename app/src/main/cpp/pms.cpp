@@ -2,6 +2,7 @@
 #include <jni.h>
 #include "HTTPRequest.hpp"
 #define BACK_URL "http://192.168.1.43:8080/api/user/"
+#define AUTH_URL "http://192.168.1.43:8080/api/user/auth/"
 
 extern "C" {
 void encrypt(std::string &str) {
@@ -9,12 +10,6 @@ void encrypt(std::string &str) {
     for (int i = 0; i < str.length(); i++)
         if (str[i] + 1 != '\0' && str[i] + 1 != '\n' && str[i] + 1 != '\b')
             str[i] = str[i] + 1;
-}
-void uncrypt(std::string &str) {
-    // Traverse the string
-    for (int i = 0; i < str.length(); i++)
-        if (str[i] - 1 != '\0' && str[i] - 1 != '\n' && str[i] - 1 != '\b')
-            str[i] = str[i] - 1;
 }
 
 int nthOccurrence(const std::string& str, const char findMe, int nth)
@@ -53,31 +48,26 @@ std::string jstring2string(JNIEnv *env, jstring jStr) {
     return ret;
 }
 
-jstring jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password, jstring j_email) {
+jstring jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password) {
 
     try {
         std::string name = jstring2string(env, j_name);
         std::string password = jstring2string(env, j_password);
-        std::string email = jstring2string(env, j_email);
         // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request get_request{BACK_URL + name};
-        // send a get request
-        const auto get_response =  get_request.send("GET");
-        switch (get_response.status.code) {
+        http::Request post_request{AUTH_URL};
+        std::string body =
+                "{\n\"name\": \"" + name + "\",\n\"password\":\"" + password + "\"\n}";
+
+        const auto post_response =  post_request.send("POST", body, {
+                {"Content-Type", "application/json"}
+        });
+
+        switch (post_response.status.code) {
             case 200 : {
-                std::string body =  std::string(get_response.body.begin(), get_response.body.end());
-                std::string enc_pw = body.substr(
-                            nthOccurrence(body, '"', 7),
-                            (nthOccurrence(body, '"', 8) - nthOccurrence(body, '"', 7))
-                        );
-//                return jstring(enc_pw.c_str());
-                uncrypt(enc_pw);
-                if (password == enc_pw){
-                    return env->NewStringUTF("SUCCESS");
-                }else{
-                    return env->NewStringUTF("FAILED");
-                }
-                break;
+                return env->NewStringUTF("LOGIN SUCCESSFUL");
+            }
+            case 404: {
+                return env->NewStringUTF("LOGIN UNSUCCESSFUL");
             }
             default: {
                 return env->NewStringUTF("Nope");
@@ -97,7 +87,6 @@ jstring jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_passwor
         std::string name = jstring2string(env, j_name);
         std::string password = jstring2string(env, j_password);
         std::string email = jstring2string(env, j_email);
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
         http::Request get_request{BACK_URL + name};
         // send a get request
         const auto get_response =  get_request.send("GET");
@@ -110,14 +99,24 @@ jstring jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_passwor
                 encrypt(password);
                 http::Request post_request{BACK_URL};
                 std::string body =
-                        "{\n\"name\": \"" + name + "\",\n\"password\":\"" + password + "\"";
-                if (!email.empty()) {
-                    body = body + ",\n\"email\":\"" + email + "\"";
+                        "{\n\"name\": \"" + name + "\",\n\"password\":\"" + password + "\"" + ",\n\"email\":\"" + email + "\"\n}";
+
+                const auto post_response =  post_request.send(
+                        "POST",
+                        body,
+                        {{"Content-Type", "application/json"}}
+                );
+                switch(post_response.status.code){
+                    case 200 : {
+                        return env->NewStringUTF("SUCCESS");
+                    }
+                    case 404: {
+                        return env->NewStringUTF("FAILED");
+                    }
+                    default:{
+                        return env->NewStringUTF("BACKEND ERROR");
+                    }
                 }
-                body = body + std::string("\n}");
-                return env->NewStringUTF(body.c_str());
-                //const auto post_response = post_request.send("POST");
-                return env->NewStringUTF("SUCCESS");
                 break;
             }
             default: {
@@ -138,7 +137,7 @@ Java_com_example_pms_Register_jniRegister(JNIEnv *env, jobject thiz, jstring j_n
     return (jstring) jniRegister(env, thiz, j_name, j_password, j_email);
 }
 JNIEXPORT jstring JNICALL
-Java_com_example_pms_Login_jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password, jstring j_email) {
-    return (jstring) jniLogin(env, thiz, j_name, j_password, j_email);
+Java_com_example_pms_Login_jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password) {
+    return (jstring) jniLogin(env, thiz, j_name, j_password);
 }
 };
