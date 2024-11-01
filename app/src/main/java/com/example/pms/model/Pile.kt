@@ -53,7 +53,7 @@ class Pile : Serializable {
         }
     }
 
-    fun getCardsUnderThisOne(card: Card): Deque<Card>? {
+    fun getCardsUnderThisOne(card: Card?): Deque<Card>? {
         if (!visible!!.contains(card)) {
             return null
         }

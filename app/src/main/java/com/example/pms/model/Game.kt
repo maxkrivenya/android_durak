@@ -29,81 +29,81 @@ class Game : Serializable {
     - Take a card in the pile to the validated ones (same function as above)
     -------------------------------------------------------------------------*/
     fun drawCards(): Deque<Card?>? {
-        return board.getDeck().drawCards()
+        return board.deck.drawCards()
     }
 
     fun cardFromDeckIntoPile(card: Card, pileNumber: Int) {
-        if (board.getPiles()[pileNumber] == null || board.getPiles()[pileNumber]?.visibleCards?.size === 0
+        if (board.piles[pileNumber] == null || board.piles[pileNumber]?.visibleCards?.size === 0
         ) {
             if (!card.getValue().equals(Card.Value.KING)) {
                 return
             } else {
-                if (board.getDeck().removeCard(card)) {
-                    board.getPiles()[pileNumber] = Pile()
-                    board.getPiles()[pileNumber]!!.addVisibleCard(card)
+                if (board.deck.removeCard(card)) {
+                    board.piles[pileNumber] = Pile()
+                    board.piles[pileNumber]!!.addVisibleCard(card)
                 }
             }
         } else {
-            val lastCardInPile: Card? = board.getPiles()[pileNumber]?.visibleCards?.getFirst()
+            val lastCardInPile: Card? = board.piles[pileNumber]?.visibleCards?.getFirst()
             if ((lastCardInPile?.getValue()!!.ordinal - 1 !== card.getValue().ordinal)
                 || !(lastCardInPile?.isOppositeColor(card))!!
             ) {
                 return
             }
-            if (board.getDeck().removeCard(card)) {
-                board.getPiles()[pileNumber]!!.addVisibleCard(card)
+            if (board.deck.removeCard(card)) {
+                board.piles[pileNumber]!!.addVisibleCard(card)
             }
         }
     }
 
     fun cardFromDeckIntoValidatedOnes(card: Card, validatedNumber: Int) {
-        if (board.getValidatedCards()[validatedNumber] == null
-            || board.getValidatedCards()[validatedNumber]!!.getCards() == null
+        if (board.validatedCards[validatedNumber] == null
+            || board.validatedCards[validatedNumber]!!.getCards() == null
         ) {
             if (!card.getValue().equals(Card.Value.AS)) {
                 return
             } else {
-                if (board.getDeck().removeCard(card)) {
-                    board.getValidatedCards()[validatedNumber] = Pile()
-                    board.getValidatedCards()[validatedNumber]!!.addCard(card)
+                if (board.deck.removeCard(card)) {
+                    board.validatedCards[validatedNumber] = Pile()
+                    board.validatedCards[validatedNumber]!!.addCard(card)
                 }
             }
         } else {
-            val lastCardInValidated = board.getValidatedCards()[validatedNumber]!!.getCards()!!
+            val lastCardInValidated = board.validatedCards[validatedNumber]!!.getCards()!!
                 .first
             if ((lastCardInValidated.getValue().ordinal + 1 !== card.getValue().ordinal)
                 || (lastCardInValidated.getSuit() !== card.getSuit())
             ) {
                 return
             }
-            if (board.getDeck().removeCard(card)) {
-                board.getValidatedCards()[validatedNumber]!!.addCard(card)
+            if (board.deck.removeCard(card)) {
+                board.validatedCards[validatedNumber]!!.addCard(card)
             }
         }
     }
 
     fun cardFromPileIntoValidatedOnes(card: Card, pileNumber: Int, validatedNumber: Int) {
-        if (board.getValidatedCards()[validatedNumber] == null || board.getValidatedCards()[validatedNumber]!!.getCards() == null || board.getValidatedCards()[validatedNumber]!!.getCards()!!
+        if (board.validatedCards[validatedNumber] == null || board.validatedCards[validatedNumber]!!.getCards() == null || board.validatedCards[validatedNumber]!!.getCards()!!
                 .size === 0
         ) {
             if (!card.getValue().equals(Card.Value.AS)) {
                 return
             } else {
-                if (board.getPiles()[pileNumber]!!.removeCard(card)) {
-                    board.getValidatedCards()[validatedNumber] = Pile()
-                    board.getValidatedCards()[validatedNumber]!!.addCard(card)
+                if (board.piles[pileNumber]!!.removeCard(card)) {
+                    board.validatedCards[validatedNumber] = Pile()
+                    board.validatedCards[validatedNumber]!!.addCard(card)
                 }
             }
         } else {
-            val lastCardInValidated = board.getValidatedCards()[validatedNumber]!!.getCards()!!
+            val lastCardInValidated = board.validatedCards[validatedNumber]!!.getCards()!!
                 .first
             if ((lastCardInValidated.getValue().ordinal + 1 !== card.getValue().ordinal)
                 || !(lastCardInValidated.getSuit().equals(card.getSuit()))
             ) {
                 return
             }
-            if (board.getPiles()[pileNumber]!!.removeCard(card)) {
-                board.getValidatedCards()[validatedNumber]!!.addCard(card)
+            if (board.piles[pileNumber]!!.removeCard(card)) {
+                board.validatedCards[validatedNumber]!!.addCard(card)
             }
         }
     }
@@ -112,34 +112,34 @@ class Game : Serializable {
         if (pileNumber == pileNumber2) {
             return
         }
-        if (board.getPiles()[pileNumber2] == null || board.getPiles()[pileNumber2]?.visibleCards
+        if (board.piles[pileNumber2] == null || board.piles[pileNumber2]?.visibleCards
                 ?.size === 0
         ) {
             if (!card.getValue().equals(Card.Value.KING)) {
                 return
             } else {
                 val cardsUnder =
-                    board.getPiles()[pileNumber]!!.getCardsUnderThisOne(card) ?: return
-                board.getPiles()[pileNumber2] = Pile()
+                    board.piles[pileNumber]!!.getCardsUnderThisOne(card) ?: return
+                board.piles[pileNumber2] = Pile()
                 while (cardsUnder.size > 0) {
                     val currentCard = cardsUnder.pop()
-                    board.getPiles()[pileNumber]!!.removeCard(currentCard)
-                    board.getPiles()[pileNumber2]!!.addVisibleCard(currentCard)
+                    board.piles[pileNumber]!!.removeCard(currentCard)
+                    board.piles[pileNumber2]!!.addVisibleCard(currentCard)
                 }
             }
         } else {
-            val lastCardInPile2: Card = board.getPiles()[pileNumber2]?.visibleCards!!.getFirst()
+            val lastCardInPile2: Card = board.piles[pileNumber2]?.visibleCards!!.getFirst()
             if ((lastCardInPile2.getValue().ordinal - 1 !== card.getValue().ordinal)
                 || !(lastCardInPile2.isOppositeColor(card))
             ) {
                 return
             }
             val cardsUnder =
-                board.getPiles()[pileNumber]!!.getCardsUnderThisOne(card) ?: return
+                board.piles[pileNumber]!!.getCardsUnderThisOne(card) ?: return
             while (cardsUnder.size > 0) {
                 val currentCard = cardsUnder.pop()
-                board.getPiles()[pileNumber]!!.removeCard(currentCard)
-                board.getPiles()[pileNumber2]!!.addVisibleCard(currentCard)
+                board.piles[pileNumber]!!.removeCard(currentCard)
+                board.piles[pileNumber2]!!.addVisibleCard(currentCard)
             }
         }
     }
@@ -155,14 +155,14 @@ class Game : Serializable {
     }
 
     private fun clearValidatedCards() {
-        val validatedCards = board.getValidatedCards()
+        val validatedCards = board.validatedCards
         for (pile in validatedCards) {
             pile?.clearPile()
         }
     }
 
     private fun initPiles(cardsLeft: MutableList<Card>) {
-        val piles = board.getPiles()
+        val piles = board.piles
         for (i in piles.indices) {
             piles[i] = Pile()
             piles[i]!!.clearPile()
@@ -178,7 +178,7 @@ class Game : Serializable {
     }
 
     private fun initDeck(cardsLeft: MutableList<Card>) {
-        val deck = board.getDeck()
+        val deck = board.deck
         deck.clearDeck()
         for (i in 0..23) {
             val card = getRandomCard(cardsLeft)

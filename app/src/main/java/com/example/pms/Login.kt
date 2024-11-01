@@ -6,6 +6,7 @@
     import android.widget.TextView
     import android.widget.Toast
     import androidx.appcompat.app.AppCompatActivity
+    import com.example.pms.android.MainActivity
     import com.google.android.material.button.MaterialButton
 
     class Login : AppCompatActivity() {
@@ -39,6 +40,14 @@
                     response,
                 Toast.LENGTH_SHORT)
                 .show()
+
+                if (response == "LOGIN SUCCESSFUL"){
+                    val myIntent = Intent(
+                        applicationContext,
+                        MainActivity::class.java
+                    )
+                    startActivity(myIntent)
+                }
             }
             registerbtn.setOnClickListener {
                 val myIntent = Intent(

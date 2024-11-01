@@ -4,9 +4,9 @@ import java.io.Serializable
 
 class Board : Serializable {
     private val NUMBER_OF_PILES = 7
-    private var piles: Array<Pile?>
-    private var validatedCards: Array<Pile?>
-    private var deck: Deck
+    var piles: Array<Pile?>
+    var validatedCards: Array<Pile?>
+    var deck: Deck
 
     constructor() {
         piles = arrayOfNulls<Pile>(NUMBER_OF_PILES)
@@ -17,24 +17,13 @@ class Board : Serializable {
     constructor(anotherBoard: Board) {
         this.piles = arrayOfNulls<Pile>(NUMBER_OF_PILES)
         for (i in 0 until NUMBER_OF_PILES) {
-            piles[i] = Pile(anotherBoard.getPiles()[i])
+            piles[i] = Pile(anotherBoard.piles[i])
         }
         this.validatedCards = arrayOfNulls<Pile>(Card.Suit.values().size)
-        for (i in anotherBoard.getValidatedCards().indices) {
-            validatedCards[i] = Pile(anotherBoard.getValidatedCards()[i])
+        for (i in anotherBoard.validatedCards.indices) {
+            validatedCards[i] = Pile(anotherBoard.validatedCards[i])
         }
-        deck = Deck(anotherBoard.getDeck())
+        deck = Deck(anotherBoard.deck)
     }
 
-    fun getPiles(): Array<Pile?> {
-        return piles
-    }
-
-    fun getValidatedCards(): Array<Pile?> {
-        return validatedCards
-    }
-
-    fun getDeck(): Deck {
-        return deck
-    }
 }
