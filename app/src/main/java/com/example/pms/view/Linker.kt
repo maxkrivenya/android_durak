@@ -3,9 +3,6 @@ package com.example.pms.view
 import com.example.pms.model.Card
 import com.example.pms.model.Game
 
-/**
- * Created by Sophie on 16/11/2016.
- */
 class Linker {
     fun deckAction(game: Game): Game {
         game.drawCards()

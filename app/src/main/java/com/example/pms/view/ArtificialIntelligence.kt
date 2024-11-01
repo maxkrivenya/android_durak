@@ -4,9 +4,7 @@ import com.example.pms.model.Card
 import com.example.pms.model.Game
 import com.example.pms.model.Pile
 
-/**
- * Created by Sophie on 26/11/2016.
- */
+
 class ArtificialIntelligence {
     fun lookIfGameLost(game: Game): Boolean {
         if (game.isGameInitialized) {
