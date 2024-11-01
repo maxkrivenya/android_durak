@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pms.Login.Companion.emailRegex
 import com.google.android.material.button.MaterialButton
 
 
@@ -30,12 +31,17 @@ class Register : AppCompatActivity() {
 
         //admin and admin
         registerbtn.setOnClickListener {
-            val response =
-                jniRegister(
-                    username.text.toString(),
-                    password.text.toString(),
-                    email.text.toString()
-                );
+            val response : String;
+            if (!username.text.matches(emailRegex.toRegex()) && email.text.matches(emailRegex.toRegex())) {
+                 response =
+                    jniRegister(
+                        username.text.toString(),
+                        password.text.toString(),
+                        email.text.toString()
+                    );
+            }else{
+                 response = "invalid username or email format";
+            }
             Toast.makeText(
                 this@Register,
                 response,

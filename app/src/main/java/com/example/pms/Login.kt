@@ -8,12 +8,13 @@
     import androidx.appcompat.app.AppCompatActivity
     import com.google.android.material.button.MaterialButton
 
-
     class Login : AppCompatActivity() {
         companion object {
           init {
              System.loadLibrary("pms")
+
           }
+            val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
         }
 
         external fun jniLogin(j_name : String, j_password: String): String

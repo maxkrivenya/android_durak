@@ -1,31 +1,14 @@
 #include <iostream>
 #include <jni.h>
 #include "HTTPRequest.hpp"
-#define BACK_URL "http://192.168.1.43:8080/api/user/"
-#define AUTH_URL "http://192.168.1.43:8080/api/user/auth/"
+#define BACK_URL "http://192.168.29.72:8080/api/user/"
+#define AUTH_URL "http://192.168.29.72:8080/api/user/auth/"
 
 extern "C" {
 void encrypt(std::string &str) {
-    // Traverse the string
-    for (int i = 0; i < str.length(); i++)
-        if (str[i] + 1 != '\0' && str[i] + 1 != '\n' && str[i] + 1 != '\b')
-            str[i] = str[i] + 1;
-}
-
-int nthOccurrence(const std::string& str, const char findMe, int nth)
-{
-    size_t  pos = 0;
-    int     cnt = 0;
-
-    while( cnt != nth )
-    {
-        pos+=1;
-        pos = str.find(findMe, pos);
-        if ( pos == std::string::npos )
-            return -1;
-        cnt++;
+    for (int i = 0; i < str.length(); i++){
+        str[i] = str[i] + i;
     }
-    return pos;
 }
 
 std::string jstring2string(JNIEnv *env, jstring jStr) {
@@ -53,14 +36,18 @@ jstring jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password) 
     try {
         std::string name = jstring2string(env, j_name);
         std::string password = jstring2string(env, j_password);
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
+
+        encrypt(password);
+
         http::Request post_request{AUTH_URL};
         std::string body =
                 "{\n\"name\": \"" + name + "\",\n\"password\":\"" + password + "\"\n}";
 
-        const auto post_response =  post_request.send("POST", body, {
-                {"Content-Type", "application/json"}
-        });
+        const auto post_response =  post_request.send(
+                "POST",
+                body,
+                {{"Content-Type", "application/json"}}
+                );
 
         switch (post_response.status.code) {
             case 200 : {
@@ -70,11 +57,10 @@ jstring jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password) 
                 return env->NewStringUTF("LOGIN UNSUCCESSFUL");
             }
             default: {
-                return env->NewStringUTF("Nope");
+                return env->NewStringUTF("BACKEND ERROR");
                 break;
             }
         }
-
     }
     catch (const std::exception &e) {
         std::cerr << "Request failed, error: " << e.what() << '\n';
@@ -84,10 +70,11 @@ jstring jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password) 
 
 jstring jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password, jstring j_email) {
     try {
-        std::string name = jstring2string(env, j_name);
-        std::string password = jstring2string(env, j_password);
-        std::string email = jstring2string(env, j_email);
+        std::string name        = jstring2string(env, j_name);
+        std::string password    = jstring2string(env, j_password);
+        std::string email       = jstring2string(env, j_email);
         http::Request get_request{BACK_URL + name};
+
         // send a get request
         const auto get_response =  get_request.send("GET");
         switch (get_response.status.code) {
@@ -97,9 +84,13 @@ jstring jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_passwor
             }
             case 404 : {
                 encrypt(password);
+
                 http::Request post_request{BACK_URL};
                 std::string body =
-                        "{\n\"name\": \"" + name + "\",\n\"password\":\"" + password + "\"" + ",\n\"email\":\"" + email + "\"\n}";
+                        "{\n\"name\": \"" + name +
+                        "\",\n\"password\":\"" + password +
+                        "\",\n\"email\":\"" + email +
+                        "\"\n}";
 
                 const auto post_response =  post_request.send(
                         "POST",
@@ -111,7 +102,7 @@ jstring jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_passwor
                         return env->NewStringUTF("SUCCESS");
                     }
                     case 404: {
-                        return env->NewStringUTF("FAILED");
+                        return env->NewStringUTF("EMAIL TAKEN");
                     }
                     default:{
                         return env->NewStringUTF("BACKEND ERROR");
