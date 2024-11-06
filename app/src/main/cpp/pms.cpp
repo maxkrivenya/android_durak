@@ -1,8 +1,8 @@
 #include <iostream>
 #include <jni.h>
 #include "HTTPRequest.hpp"
-#define BACK_URL "http://192.168.100.16:8080/api/user/"
-#define AUTH_URL "http://192.168.100.16:8080/api/user/auth/"
+#define BACK_URL "http://192.168.207.80:8080/api/user/"
+#define AUTH_URL "http://192.168.207.80:8080/api/user/auth/"
 
 extern "C" {
 void encrypt(std::string &str) {
