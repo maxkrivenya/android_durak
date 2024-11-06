@@ -1,4 +1,4 @@
-    package com.example.pms
+    package com.example.pms.ui.auth
 
     import android.content.Intent
     import android.os.Bundle
@@ -6,7 +6,8 @@
     import android.widget.TextView
     import android.widget.Toast
     import androidx.appcompat.app.AppCompatActivity
-    import com.example.pms.android.MainActivity
+    import com.example.pms.R
+    import com.example.pms.android.Solitaire
     import com.google.android.material.button.MaterialButton
 
     class Login : AppCompatActivity() {
@@ -44,7 +45,7 @@
                 if (response == "LOGIN SUCCESSFUL"){
                     val myIntent = Intent(
                         applicationContext,
-                        MainActivity::class.java
+                        Solitaire::class.java
                     )
                     startActivity(myIntent)
                 }

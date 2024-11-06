@@ -1,4 +1,4 @@
-package com.example.pms
+package com.example.pms.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,8 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pms.Login.Companion.emailRegex
+import com.example.pms.R
+import com.example.pms.ui.auth.Login.Companion.emailRegex
 import com.google.android.material.button.MaterialButton
 
 

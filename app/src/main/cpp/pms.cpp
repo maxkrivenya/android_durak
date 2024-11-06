@@ -1,8 +1,8 @@
 #include <iostream>
 #include <jni.h>
 #include "HTTPRequest.hpp"
-#define BACK_URL "http://192.168.29.72:8080/api/user/"
-#define AUTH_URL "http://192.168.29.72:8080/api/user/auth/"
+#define BACK_URL "http://192.168.100.16:8080/api/user/"
+#define AUTH_URL "http://192.168.100.16:8080/api/user/auth/"
 
 extern "C" {
 void encrypt(std::string &str) {
@@ -124,11 +124,11 @@ jstring jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_passwor
 }
 
 JNIEXPORT jstring JNICALL
-Java_com_example_pms_Register_jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password, jstring j_email) {
+Java_com_example_pms_ui_auth_Register_jniRegister(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password, jstring j_email) {
     return (jstring) jniRegister(env, thiz, j_name, j_password, j_email);
 }
 JNIEXPORT jstring JNICALL
-Java_com_example_pms_Login_jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password) {
+Java_com_example_pms_ui_auth_Login_jniLogin(JNIEnv *env, jobject thiz, jstring j_name, jstring j_password) {
     return (jstring) jniLogin(env, thiz, j_name, j_password);
 }
 };

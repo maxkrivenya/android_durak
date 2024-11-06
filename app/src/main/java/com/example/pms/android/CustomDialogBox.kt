@@ -30,7 +30,7 @@ class CustomDialogBox : DialogFragment() {
     private val buttonListener =
         View.OnClickListener { v ->
             if (v.id == R.id.yes) {
-                (getActivity() as MainActivity).customDialogYes()
+                (getActivity() as Solitaire).customDialogYes()
             }
             dismiss()
         }

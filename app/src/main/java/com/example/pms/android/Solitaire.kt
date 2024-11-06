@@ -21,7 +21,7 @@ import java.io.ObjectOutput
 import java.io.ObjectOutputStream
 import java.io.StreamCorruptedException
 
-class MainActivity : AppCompatActivity() {
+class Solitaire : AppCompatActivity() {
     private var x = 0f
     private var y = 0f
     private var panel: Panel? = null

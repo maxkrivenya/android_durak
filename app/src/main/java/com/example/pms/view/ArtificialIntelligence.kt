@@ -62,7 +62,7 @@ class ArtificialIntelligence {
                         }
                     }
                     copy.drawCards()
-                    currentDeckCardMaybe = copy.board.deck.drawnCards.peek()!!
+                    currentDeckCardMaybe = copy.board.deck.drawnCards.peek()
                     if (currentDeckCardMaybe != null) {
                         currentDeckCard = currentDeckCardMaybe
                     }
@@ -70,7 +70,7 @@ class ArtificialIntelligence {
 
 
                 copy.drawCards()
-                currentDeckCardMaybe = copy.board.deck.drawnCards.peek()!!
+                currentDeckCardMaybe = copy.board.deck.drawnCards.peek()
                 if (currentDeckCardMaybe != null) {
                     currentDeckCard = currentDeckCardMaybe
                 }
@@ -93,7 +93,7 @@ class ArtificialIntelligence {
                         }
                     }
                     copy.drawCards()
-                    currentDeckCardMaybe = copy.board.deck.drawnCards.peek()!!
+                    currentDeckCardMaybe = copy.board.deck.drawnCards.peek()
                     if (currentDeckCardMaybe != null) {
                         currentDeckCard = currentDeckCardMaybe
                     }
