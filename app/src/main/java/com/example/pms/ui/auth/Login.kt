@@ -7,7 +7,7 @@
     import android.widget.Toast
     import androidx.appcompat.app.AppCompatActivity
     import com.example.pms.R
-    import com.example.pms.android.Solitaire
+    import com.example.pms.ui.Menu
     import com.google.android.material.button.MaterialButton
 
     class Login : AppCompatActivity() {
@@ -45,7 +45,7 @@
                 if (response == "LOGIN SUCCESSFUL"){
                     val myIntent = Intent(
                         applicationContext,
-                        Solitaire::class.java
+                        Menu::class.java
                     )
                     startActivity(myIntent)
                 }
