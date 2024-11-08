@@ -1,4 +1,6 @@
 <<<<<<< HEAD
+app/src/main/cpp/HTTPRequest.hpp
+
 # Gradle files
 .gradle/
 build/
