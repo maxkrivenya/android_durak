@@ -3,11 +3,13 @@ package com.example.pms.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.pms.R
 import com.example.pms.android.Solitaire
+import com.example.pms.ui.auth.Login
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -71,4 +73,6 @@ class Home : Fragment() {
                 }
             }
     }
+
+
 }

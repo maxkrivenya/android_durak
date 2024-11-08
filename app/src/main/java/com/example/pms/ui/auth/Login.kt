@@ -27,6 +27,7 @@
 
             val username = findViewById<View>(R.id.username) as TextView
             val password = findViewById<View>(R.id.password) as TextView
+            val guestbtn = findViewById<View>(R.id.guestbtn) as MaterialButton
             val registerbtn = findViewById<View>(R.id.registerbtn) as MaterialButton
             val loginbtn = findViewById<View>(R.id.loginbtn) as MaterialButton
 
@@ -49,6 +50,13 @@
                     )
                     startActivity(myIntent)
                 }
+            }
+            guestbtn.setOnClickListener {
+                    val myIntent = Intent(
+                        applicationContext,
+                        Menu::class.java
+                    )
+                    startActivity(myIntent)
             }
             registerbtn.setOnClickListener {
                 val myIntent = Intent(
