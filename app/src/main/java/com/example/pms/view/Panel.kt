@@ -436,8 +436,10 @@ class Panel(context: Context?, attrs: AttributeSet?) :
                 yMaxPile!![index] = yMaxPile!![index] + 2 * unityMin
                 position.postTranslate(0f, 2 * unityMin)
 
-                cardVisible[index].add(card)
-                piles[index]?.visibleCards!!.push(card)
+                if (index < cardVisible.size) {
+                    cardVisible[index].add(card)
+                    piles[index]?.visibleCards!!.push(card)
+                }
             }
             if (underThisCard != null) {
                 while (underThisCard.size > 0) {

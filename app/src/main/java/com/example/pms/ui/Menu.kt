@@ -8,7 +8,6 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.collection.CircularArray
 import com.example.pms.R
 import androidx.fragment.app.Fragment
 import com.example.pms.android.Solitaire
@@ -197,3 +196,4 @@ class Menu : AppCompatActivity() {
         open fun onSwipeBottom() {}
     }
 }
+

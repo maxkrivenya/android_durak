@@ -4,7 +4,7 @@
 #define BACK_URL "http://192.168.207.80:8080/api/user/"
 #define AUTH_URL "http://192.168.207.80:8080/api/user/auth/"
 
-extern "C" {
+extern "C" {    
 void encrypt(std::string &str) {
     for (int i = 0; i < str.length(); i++){
         str[i] = str[i] + i;

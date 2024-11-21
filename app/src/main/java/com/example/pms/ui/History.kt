@@ -1,60 +1,94 @@
 package com.example.pms.ui
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
 import com.example.pms.R
+import com.example.pms.android.Stats
+import com.example.pms.ui.auth.Login.Companion.VolleySingleton
+import org.json.JSONObject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [History.newInstance] factory method to
- * create an instance of this fragment.
- */
 class History : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: StatsAdapter
+    private var statsList: MutableList<Stats> = mutableListOf()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false)
+        val view = inflater.inflate(R.layout.fragment_history, container, false)
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        adapter = StatsAdapter(statsList)
+        recyclerView.adapter = adapter
+
+        // Sample data
+        statsList.addAll(getSampleStats())
+        adapter.notifyDataSetChanged()
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment History.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            History().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getSampleStats(): List<Stats> {
+        VolleySingleton.getInstance(this.requireContext());
+
+            val url = "http://192.168.207.80:8080/api/user/stats/max/2023-05-05T10:15:30+01:00"
+            val items = mutableListOf<Stats>()
+            val jsonArrayRequest = JsonArrayRequest(
+                Request.Method.GET, url, null,
+                { response ->
+                    Log.println(Log.INFO, "STATS", response.toString());
+                    for (i in 0 until response.length()) {
+                        val jsonObject: JSONObject = response.getJSONObject(i)
+                        val userid      = jsonObject.getString("userid")
+                        val date        = jsonObject.getString("date")
+                        val duration    = jsonObject.getInt("duration")
+                        items.add(Stats(userid, date.substring(0,10), duration))
+                    }
+                    updateRecyclerView(items)
+                },
+                { error ->
+                    Log.println(Log.ERROR, "ERROR", error.toString());
+                    // Handle the error
                 }
-            }
+            )
+
+      //      // Add the request to the RequestQueue
+            VolleySingleton.getRequestQueue().add(jsonArrayRequest)
+
+
+
+    // Replace with your own data retrieval logic
+        return items;
     }
+
+
+    fun sortListByName() {
+        statsList.sortBy { it.date }
+        adapter.notifyDataSetChanged()
+    }
+
+    fun sortListByValue() {
+        statsList.sortBy { it.duration }
+        adapter.notifyDataSetChanged()
+    }
+
+    fun updateRecyclerView(items: List<Stats>) {
+        // Update your RecyclerView adapter with the new list
+        adapter.updateItems(items) // Implement this method in your adapter
+    }
+
 }

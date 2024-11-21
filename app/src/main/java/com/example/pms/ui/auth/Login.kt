@@ -1,22 +1,44 @@
     package com.example.pms.ui.auth
 
+    import android.content.Context
     import android.content.Intent
     import android.os.Bundle
     import android.view.View
     import android.widget.TextView
     import android.widget.Toast
     import androidx.appcompat.app.AppCompatActivity
+    import com.android.volley.RequestQueue
+    import com.android.volley.toolbox.Volley
     import com.example.pms.R
     import com.example.pms.ui.Menu
     import com.google.android.material.button.MaterialButton
+
+
 
     class Login : AppCompatActivity() {
         companion object {
           init {
              System.loadLibrary("pms")
-
           }
+            var isTablet = false;
             val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
+
+            object VolleySingleton {
+                private var instance: VolleySingleton? = null
+                private lateinit var requestQueue: RequestQueue
+
+                fun getInstance(context: Context): VolleySingleton {
+                    if (instance == null) {
+                        instance = VolleySingleton
+                        requestQueue = Volley.newRequestQueue(context)
+                    }
+                    return instance!!
+                }
+
+                fun getRequestQueue(): RequestQueue {
+                    return requestQueue
+                }
+            }
         }
 
         external fun jniLogin(j_name : String, j_password: String): String

@@ -6,12 +6,37 @@
     android:background="@color/purple_200"
     tools:context=".ui.History">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="History Fragment"
-        android:textSize="26dp"
-        android:layout_gravity="center"/>
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/sortByNameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by Date" />
+
+        <Button
+            android:id="@+id/sortByValueButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/sortByNameButton"
+            android:text="Sort by Duration" />
+
+    </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
 
 </FrameLayout>

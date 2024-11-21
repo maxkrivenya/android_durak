@@ -79,7 +79,7 @@ class Solitaire : AppCompatActivity() {
         game!!.initGame()
 
         //draw the game
-        panel = Panel(getApplicationContext(), null)
+        panel = Panel(applicationContext, null)
         panel!!.setGame(game)
         setContentView(panel)
     }
