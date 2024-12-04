@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.example.pms.R
 import com.example.pms.android.Stats
 import com.example.pms.ui.auth.Login.Companion.VolleySingleton
+import com.google.android.material.button.MaterialButton
 import org.json.JSONObject
 
 class History : Fragment() {
@@ -29,6 +31,10 @@ class History : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
+
+        val sortByDateBtn       = view.findViewById<View>(R.id.sortByDateButton) as Button;
+        val sortByDurationBtn   = view.findViewById<View>(R.id.sortByDurationButton) as Button;
+
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -38,6 +44,18 @@ class History : Fragment() {
         // Sample data
         statsList.addAll(getSampleStats())
         adapter.notifyDataSetChanged()
+
+        sortByDateBtn.setOnClickListener {
+            statsList.sortBy { it.date }
+            adapter.notifyDataSetChanged()
+        };
+
+        sortByDurationBtn.setOnClickListener {
+            statsList.sortBy { it.duration }
+            adapter.notifyDataSetChanged()
+        };
+
+        
         return view
     }
 
@@ -73,17 +91,6 @@ class History : Fragment() {
 
     // Replace with your own data retrieval logic
         return items;
-    }
-
-
-    fun sortListByName() {
-        statsList.sortBy { it.date }
-        adapter.notifyDataSetChanged()
-    }
-
-    fun sortListByValue() {
-        statsList.sortBy { it.duration }
-        adapter.notifyDataSetChanged()
     }
 
     fun updateRecyclerView(items: List<Stats>) {

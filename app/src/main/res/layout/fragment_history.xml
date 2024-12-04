@@ -18,16 +18,16 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/sortByNameButton"
+            android:id="@+id/sortByDateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sort by Date" />
 
         <Button
-            android:id="@+id/sortByValueButton"
+            android:id="@+id/sortByDurationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/sortByNameButton"
+            android:layout_toRightOf="@+id/sortByDateButton"
             android:text="Sort by Duration" />
 
     </RelativeLayout>
